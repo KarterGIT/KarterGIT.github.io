@@ -1,6 +1,6 @@
 # Karter Riggs — Portfolio
 
-A single-page, nature-themed portfolio site. Plain static HTML/CSS/JS — no build step, no runtime, no dependencies.
+A single-page, nature-themed portfolio site — designed and built with AI tools. Plain static HTML, CSS, and JavaScript.
 
 🌐 **Live:** https://kartergit.github.io
 

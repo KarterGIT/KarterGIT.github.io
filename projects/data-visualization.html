@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Visualization &amp; Analytics — Karter Riggs</title>
+<meta name="description" content="DataScope Analytics: a 10,345-row AI job market dataset turned into an executive Tableau decision system — plus a semester of dashboard craft in Tableau.">
+<meta name="author" content="Karter Riggs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Mulish:wght@300;400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="../logo.png">
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+  body { margin: 0; background: #f2f4ec; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  ::selection { background: #7ee04a; color: #0a231a; }
+  a { -webkit-tap-highlight-color: transparent; }
+
+  .navlink { transition: color .25s ease, background .25s ease; }
+  .navlink:hover { color:#7ee04a; background:rgba(126,224,74,0.1); }
+  .btn-lime { transition: filter .25s ease, transform .25s ease; }
+  .btn-lime:hover { filter:brightness(1.08); transform:translateY(-2px); }
+  .concept-card { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+  .concept-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px -34px rgba(15,61,46,0.55); }
+
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1 !important;transform:none !important;} }
+
+  @media (max-width: 900px){
+    .concepts-grid, .stats-row, .takeaway-grid { grid-template-columns: 1fr !important; }
+    .sec { padding: 84px 22px !important; }
+    nav[data-nav]{ padding:14px 20px !important; }
+  }
+</style>
+</head>
+<body>
+<div style="font-family:'Mulish',sans-serif;color:#1c2a1e;overflow-x:hidden;">
+
+  <!-- ============ NAV ============ -->
+  <nav data-nav style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(14,47,34,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(126,224,74,0.16);transition:background .45s ease, padding .45s ease, box-shadow .45s ease;">
+    <a href="../index.html" style="display:flex;align-items:center;gap:13px;text-decoration:none;">
+      <img src="../logo.png" alt="Karter Riggs logo" style="width:56px;height:56px;display:block;object-fit:contain;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#f2f4ec;letter-spacing:.01em;">Karter Riggs</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <a href="../index.html#portfolio" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">← Back to portfolio</a>
+      <a href="../index.html#contact" class="btn-lime" style="text-decoration:none;color:#0a231a;background:#7ee04a;font-size:14.5px;font-weight:700;letter-spacing:.02em;padding:9px 18px;border-radius:999px;">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ============ HEADER ============ -->
+  <section style="position:relative;min-height:62vh;display:flex;align-items:flex-end;overflow:hidden;">
+    <div style="position:absolute;inset:0;width:100%;height:100%;z-index:0;background:url('../painted-meadow.png') center 30% / cover no-repeat;"></div>
+    <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg, rgba(10,35,26,0.72) 0%, rgba(10,35,26,0.45) 45%, rgba(10,35,26,0.82) 100%);"></div>
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:150px 52px 70px;width:100%;">
+      <div class="reveal" style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;line-height:1;margin-bottom:8px;">Selected work</div>
+      <h1 class="reveal" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(44px,7vw,92px);line-height:0.98;letter-spacing:-0.01em;color:#f4f7ee;margin:0 0 18px;text-shadow:0 2px 40px rgba(6,20,14,0.45);">Data Visualization<br>&amp; Analytics</h1>
+      <div class="reveal" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+        <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0a231a;background:#7ee04a;border-radius:999px;padding:8px 16px;">Tableau · Decision Dashboards</span>
+        <span style="font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#e6efdd;background:rgba(255,255,255,0.08);border:1px solid rgba(126,224,74,0.3);border-radius:999px;padding:8px 16px;">CIS 472 · Semester + Capstone</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="sec" style="background:#f2f4ec;padding:100px 52px;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="takeaway-grid" style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:64px;align-items:start;">
+        <div class="reveal">
+          <div style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:2px;">The capstone</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(32px,4vw,52px);line-height:1.06;color:#15281c;margin:0 0 24px;">DataScope Analytics — turning the AI job market into a decision system.</h2>
+          <p style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0 0 20px;">For the course capstone I played the role of a workforce-intelligence consultancy advising a tech company's executive team — the CPO, VP of Talent, and CFO. Starting from a <strong>10,345-posting AI &amp; Data Science job market dataset</strong> (2020–2026), I built an end-to-end <strong>Tableau decision system</strong>: a two-dashboard story with four KPI tiles that update live with every filter.</p>
+          <p style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0;">The design rule: every chart answers a <em>decision the Board actually has to make</em> — not just a metric to look at. Underneath it sits a full semester of weekly Tableau builds: maps, filters, calculated fields, and dashboard design fundamentals.</p>
+        </div>
+        <div class="reveal" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;padding:30px 32px;box-shadow:0 24px 50px -32px rgba(15,61,46,0.4);">
+          <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:18px;">At a glance</div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Job postings analyzed</span><span style="font-size:15px;font-weight:700;color:#15281c;">10,345</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Fields · countries · roles</span><span style="font-size:15px;font-weight:700;color:#15281c;">19 · 7 · 6</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Dashboards + live KPI tiles</span><span style="font-size:15px;font-weight:700;color:#15281c;">2 + 4</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="font-size:15px;color:#45543f;">Built with</span><span style="font-size:15px;font-weight:700;color:#15281c;">Tableau</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE WORK ============ -->
+  <section class="sec" style="background:#0e2f22;padding:100px 52px;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="text-align:center;margin-bottom:64px;">
+        <div style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;margin-bottom:2px;">How it was built</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(32px,4.4vw,56px);line-height:1.04;color:#f4f7ee;margin:0;">From raw rows to executive answers</h2>
+      </div>
+
+      <div class="concepts-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:22px;">
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Three board-level questions</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">The whole dashboard hangs on three strategic questions: <strong style="color:#e6efdd;">which roles are emerging vs. fading</strong>, <strong style="color:#e6efdd;">where salary risk concentrates</strong>, and <strong style="color:#e6efdd;">which skills carry a real premium</strong>. Every visualization ties back to one of them.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Data quality, checked first</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">Before any chart: the full dataset was audited against a <strong style="color:#e6efdd;">validity / consistency / accuracy</strong> framework — types, ranges, duplicates, missing values, and outliers. Salary extremes were kept deliberately: they're the ceiling the Board benchmarks against.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Custom calculated fields</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">Built the analysis layer the raw schema couldn't answer: <strong style="color:#e6efdd;">DATEPARSE</strong> time-series dates, a skill-count measure, <strong style="color:#e6efdd;">five conditional skill-salary fields</strong>, and a dynamic <strong style="color:#e6efdd;">Top Skill KPI</strong> that re-computes as filters change.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Finding: a $40K salary gap</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">Senior AI/ML Engineers earn <strong style="color:#e6efdd;">~$165K</strong> against ~$125K for other senior roles — a $40K exposure gap. Each experience level adds a steady <strong style="color:#e6efdd;">~$24K</strong>, while country differences are noise (~$3K). Role and experience are the real levers.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Finding: skills that actually pay</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;"><strong style="color:#e6efdd;">Deep Learning ($121K), Machine Learning ($121K), and Cloud ($118K)</strong> carry a real premium — while Python and SQL are table stakes: expected of everyone, worth no bump on their own. A clean, actionable ranking for job descriptions and training budgets.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Finding: where hiring runs hottest</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">A <strong style="color:#e6efdd;">country × role urgency heatmap</strong> surfaced three hotspots — USA × Business Analyst (148), Singapore × ML Engineer (143), Australia × Business Analyst (142) — the exact cells where recruiting capacity should go first.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;grid-column:1 / -1;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Chart craft — choosing the honest visual</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">Two design calls defined the project. A stacked bar chart quietly <strong style="color:#e6efdd;">summed averages into a fake $420K figure</strong> — caught it, and rebuilt as side-by-side bars that preserve true values. And a world map with only 7 countries told no story, so it became a heatmap that shows <strong style="color:#e6efdd;">country and role at the same time</strong>. Every recommendation shipped as <em>if-this-then-who-does-what-by-when</em> — a report an executive can act on, not just read.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAKEAWAY ============ -->
+  <section class="sec" style="background:#f2f4ec;padding:100px 52px;">
+    <div style="max-width:900px;margin:0 auto;text-align:center;">
+      <div class="reveal" style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:4px;">Why it matters</div>
+      <h2 class="reveal" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(30px,4.4vw,52px);line-height:1.06;color:#15281c;margin:0 0 22px;">Good dashboards answer decisions, not just show data.</h2>
+      <p class="reveal" style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0 auto 40px;max-width:640px;">This project is where I learned to work a dataset end to end — audit it, build the calculated layer, choose honest visuals, and land on recommendations someone can act on. It's also a study of the exact market I'm heading into: the AI job market itself.</p>
+      <div class="reveal" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <a href="../index.html#portfolio" class="btn-lime" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:15px;padding:15px 30px;border-radius:999px;">← Back to all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0a231a;padding:34px 52px;">
+    <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <img src="../logo.png" alt="Karter Riggs logo" style="width:42px;height:42px;display:block;object-fit:contain;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#e6efdd;">Karter Riggs</span>
+      </div>
+      <div style="font-size:13.5px;color:#8fa585;">© 2026 Karter Riggs · Artificial Intelligence</div>
+      <a href="../index.html" style="text-decoration:none;font-size:13.5px;font-weight:600;color:#7ee04a;">Home ↑</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var nav = document.querySelector("[data-nav]");
+  function onScroll() {
+    if (!nav) return;
+    if (window.scrollY > 40) {
+      nav.style.background = "rgba(9,32,24,0.93)";
+      nav.style.paddingTop = "13px";
+      nav.style.paddingBottom = "13px";
+      nav.style.boxShadow = "0 12px 34px rgba(0,0,0,0.28)";
+    } else {
+      nav.style.background = "rgba(14,47,34,0.5)";
+      nav.style.paddingTop = "20px";
+      nav.style.paddingBottom = "20px";
+      nav.style.boxShadow = "none";
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  var els = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add("in"); });
+  }
+})();
+</script>
+</body>
+</html>

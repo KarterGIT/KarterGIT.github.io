@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
-</head>
-<body>
-<x-dc>
-<helmet>
+<title>Karter Riggs — Artificial Intelligence Student & Portfolio</title>
+<meta name="description" content="Karter Riggs — Artificial Intelligence student and working AI intern. Building practical, community-minded AI: local LLMs, agentic automation, and AI tooling.">
+<meta name="author" content="Karter Riggs">
+<meta property="og:title" content="Karter Riggs — AI Student & Portfolio">
+<meta property="og:description" content="Building practical, community-minded AI.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Mulish:wght@300;400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-<!-- image-slot runtime removed: all images are static so they show for every visitor -->
+<link rel="icon" href="logo.png">
 <style>
   html { scroll-behavior: smooth; scroll-padding-top: 92px; }
   body { margin: 0; background: #f2f4ec; -webkit-font-smoothing: antialiased; }
@@ -19,38 +20,63 @@
   ::selection { background: #7ee04a; color: #0a231a; }
   @keyframes scrollpulse { 0%{ transform: translateY(0); opacity:.9 } 50%{ transform: translateY(10px); opacity:.3 } 100%{ transform: translateY(0); opacity:.9 } }
   a { -webkit-tap-highlight-color: transparent; }
-</style>
-</helmet>
 
+  /* hover states */
+  .navlink { transition: color .25s ease, background .25s ease; }
+  .navlink:hover { color:#7ee04a; background:rgba(126,224,74,0.1); }
+  .btn-lime { transition: filter .25s ease, transform .25s ease; }
+  .btn-lime:hover { filter:brightness(1.08); transform:translateY(-2px); }
+  .btn-ghost { transition: background .25s ease, transform .25s ease; }
+  .btn-ghost:hover { background:rgba(255,255,255,0.14); transform:translateY(-2px); }
+  .proj-card { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+  .proj-card:hover { transform:translateY(-8px); box-shadow:0 30px 60px -34px rgba(15,61,46,0.55); }
+
+  /* scroll reveal */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1 !important;transform:none !important;} }
+
+  /* responsive (desktop layout unchanged; only stacks on small screens) */
+  @media (max-width: 900px){
+    .about-grid, .resume-grid, .skills-grid, .projects-grid, .contact-info { grid-template-columns: 1fr !important; }
+    .sec { padding: 84px 22px !important; }
+    nav[data-nav]{ padding:14px 20px !important; }
+    .about-portrait{ height:420px !important; }
+    .foot-row{ justify-content:center !important; text-align:center !important; }
+  }
+</style>
+</head>
+<body>
 <div style="font-family:'Mulish',sans-serif;color:#1c2a1e;overflow-x:hidden;">
 
+  <!-- ============ NAV ============ -->
   <nav data-nav style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(14,47,34,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(126,224,74,0.16);transition:background .45s ease, padding .45s ease, box-shadow .45s ease;">
     <a href="#home" style="display:flex;align-items:center;gap:13px;text-decoration:none;">
       <img src="logo.png" alt="Karter Riggs logo" style="width:56px;height:56px;display:block;object-fit:contain;">
       <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#f2f4ec;letter-spacing:.01em;">Karter Riggs</span>
     </a>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <a href="#home" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;transition:color .25s ease, background .25s ease;" style-hover="color:#7ee04a;background:rgba(126,224,74,0.1);">Home</a>
-      <a href="#about" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;transition:color .25s ease, background .25s ease;" style-hover="color:#7ee04a;background:rgba(126,224,74,0.1);">About</a>
-      <a href="#resume" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;transition:color .25s ease, background .25s ease;" style-hover="color:#7ee04a;background:rgba(126,224,74,0.1);">Resume</a>
-      <a href="#portfolio" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;transition:color .25s ease, background .25s ease;" style-hover="color:#7ee04a;background:rgba(126,224,74,0.1);">Portfolio</a>
-      <a href="#contact" style="text-decoration:none;color:#0a231a;background:#7ee04a;font-size:14.5px;font-weight:700;letter-spacing:.02em;padding:9px 18px;border-radius:999px;transition:filter .25s ease, transform .25s ease;" style-hover="filter:brightness(1.08);transform:translateY(-1px);">Contact</a>
+      <a href="#home" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">Home</a>
+      <a href="#about" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">About</a>
+      <a href="#resume" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">Resume</a>
+      <a href="#portfolio" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">Portfolio</a>
+      <a href="#contact" class="btn-lime" style="text-decoration:none;color:#0a231a;background:#7ee04a;font-size:14.5px;font-weight:700;letter-spacing:.02em;padding:9px 18px;border-radius:999px;">Contact</a>
     </div>
   </nav>
 
   <!-- ============ HERO ============ -->
   <section id="home" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;">
     <div style="position:absolute;inset:0;width:100%;height:100%;z-index:0;background:url('painted-meadow.png') center center / cover no-repeat;"></div>
-    <div data-hero-overlay style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.55;background:linear-gradient(180deg, rgba(10,35,26,0.78) 0%, rgba(10,35,26,0.30) 42%, rgba(10,35,26,0.55) 100%);"></div>
+    <div style="position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.55;background:linear-gradient(180deg, rgba(10,35,26,0.78) 0%, rgba(10,35,26,0.30) 42%, rgba(10,35,26,0.55) 100%);"></div>
     <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:120px 52px 140px;width:100%;pointer-events:none;">
       <div style="max-width:760px;">
-        <div data-reveal style="font-family:'Caveat',cursive;font-size:30px;color:#7ee04a;line-height:1;margin-bottom:6px;">Hi, my name is</div>
-        <h1 data-reveal data-reveal-delay="80ms" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(58px,9.5vw,140px);line-height:0.95;letter-spacing:-0.01em;color:#f4f7ee;margin:0 0 18px;text-shadow:0 2px 40px rgba(6,20,14,0.45);">Karter Riggs</h1>
-        <div data-reveal data-reveal-delay="160ms" style="display:inline-block;font-weight:600;font-size:15px;letter-spacing:0.26em;text-transform:uppercase;color:#7ee04a;margin-bottom:26px;">Artificial Intelligence Student</div>
-        <p data-reveal data-reveal-delay="230ms" style="font-family:'Mulish',sans-serif;font-weight:300;font-size:clamp(18px,2vw,23px);line-height:1.6;color:#eef3e6;max-width:600px;margin:0 0 38px;text-shadow:0 1px 20px rgba(6,20,14,0.4);">Building practical, community-minded AI.</p>
-        <div data-reveal data-reveal-delay="300ms" style="display:flex;gap:16px;flex-wrap:wrap;pointer-events:auto;">
-          <a href="#portfolio" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:15px;padding:15px 30px;border-radius:999px;transition:filter .25s ease, transform .25s ease;" style-hover="filter:brightness(1.08);transform:translateY(-2px);">View my work →</a>
-          <a href="#contact" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:rgba(255,255,255,0.06);color:#f2f4ec;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;border:1px solid rgba(242,244,236,0.45);transition:background .25s ease, transform .25s ease;" style-hover="background:rgba(255,255,255,0.14);transform:translateY(-2px);">Get in touch</a>
+        <div class="reveal" style="font-family:'Caveat',cursive;font-size:30px;color:#7ee04a;line-height:1;margin-bottom:6px;">Hi, my name is</div>
+        <h1 class="reveal" data-reveal-delay="80ms" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(58px,9.5vw,140px);line-height:0.95;letter-spacing:-0.01em;color:#f4f7ee;margin:0 0 18px;text-shadow:0 2px 40px rgba(6,20,14,0.45);">Karter Riggs</h1>
+        <div class="reveal" data-reveal-delay="160ms" style="display:inline-block;font-weight:600;font-size:15px;letter-spacing:0.26em;text-transform:uppercase;color:#7ee04a;margin-bottom:26px;">Artificial Intelligence Student</div>
+        <p class="reveal" data-reveal-delay="230ms" style="font-family:'Mulish',sans-serif;font-weight:300;font-size:clamp(18px,2vw,23px);line-height:1.6;color:#eef3e6;max-width:600px;margin:0 0 38px;text-shadow:0 1px 20px rgba(6,20,14,0.4);">Building practical, community-minded AI.</p>
+        <div class="reveal" data-reveal-delay="300ms" style="display:flex;gap:16px;flex-wrap:wrap;pointer-events:auto;">
+          <a href="#portfolio" class="btn-lime" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:15px;padding:15px 30px;border-radius:999px;">View my work →</a>
+          <a href="#contact" class="btn-ghost" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:rgba(255,255,255,0.06);color:#f2f4ec;font-weight:600;font-size:15px;padding:15px 30px;border-radius:999px;border:1px solid rgba(242,244,236,0.45);">Get in touch</a>
         </div>
       </div>
     </div>
@@ -61,10 +87,10 @@
   </section>
 
   <!-- ============ ABOUT ============ -->
-  <section id="about" style="background:#f2f4ec;padding:120px 52px;">
-    <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;align-items:center;">
-      <div data-reveal style="position:relative;">
-        <div style="position:relative;width:100%;height:540px;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(15,61,46,0.5);background:linear-gradient(155deg,#0e2f22 0%,#1c4a34 55%,#2f7d3f 120%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+  <section id="about" class="sec" style="background:#f2f4ec;padding:120px 52px;">
+    <div class="about-grid" style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;align-items:center;">
+      <div class="reveal" style="position:relative;">
+        <div class="about-portrait" style="position:relative;width:100%;height:540px;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(15,61,46,0.5);background:linear-gradient(155deg,#0e2f22 0%,#1c4a34 55%,#2f7d3f 120%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
           <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-40px;bottom:-30px;width:280px;opacity:.12;">
             <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
             <path d="M120 92 C150 82 168 66 176 46"/><path d="M120 92 C90 82 72 66 64 46"/>
@@ -80,7 +106,7 @@
           <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#b8c9ad;margin-top:4px;">GPA · B.S. AI</div>
         </div>
       </div>
-      <div data-reveal data-reveal-delay="120ms">
+      <div class="reveal" data-reveal-delay="120ms">
         <div style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:2px;">About me</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.4vw,58px);line-height:1.04;color:#15281c;margin:0 0 24px;">Turning curiosity into working&nbsp;AI.</h2>
         <p style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0 0 22px;max-width:620px;">Artificial Intelligence student and working AI intern with everyday, hands-on comfort using AI tools. A fast, independent learner — currently the sole AI-focused intern at a university institute, scoping projects with little oversight and mentoring high school students.</p>
@@ -104,112 +130,216 @@
   </section>
 
   <!-- ============ RESUME ============ -->
-  <section id="resume" style="background:#0e2f22;padding:120px 52px;position:relative;">
+  <section id="resume" class="sec" style="background:#0e2f22;padding:120px 52px;position:relative;">
     <div style="max-width:1180px;margin:0 auto;">
-      <div data-reveal style="text-align:center;margin-bottom:70px;">
+      <div class="reveal" style="text-align:center;margin-bottom:70px;">
         <div style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;margin-bottom:2px;">The journey</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.4vw,58px);line-height:1.04;color:#f4f7ee;margin:0;">Experience &amp; Education</h2>
       </div>
 
-      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:64px;">
+      <div class="resume-grid" style="display:grid;grid-template-columns:1.4fr 1fr;gap:64px;">
         <!-- Experience -->
         <div>
           <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7ee04a;font-weight:700;margin-bottom:32px;">Experience</div>
-          <sc-for list="{{ experiences }}" as="exp" hint-placeholder-count="2">
-            <div data-reveal style="position:relative;padding-left:30px;padding-bottom:40px;border-left:1px solid rgba(126,224,74,0.28);">
-              <span style="position:absolute;left:-6.5px;top:5px;width:12px;height:12px;border-radius:50%;background:#7ee04a;box-shadow:0 0 0 4px rgba(126,224,74,0.18);"></span>
-              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;line-height:1.12;color:#f4f7ee;margin:0 0 4px;">{{ exp.role }}</h3>
-              <div style="font-size:15px;font-weight:600;color:#7ee04a;margin-bottom:6px;">{{ exp.org }}</div>
-              <div style="font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#9db08f;margin-bottom:16px;">{{ exp.meta }}</div>
-              <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
-                <sc-for list="{{ exp.bullets }}" as="b" hint-placeholder-count="3">
-                  <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;">
-                    <span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>{{ b }}
-                  </li>
-                </sc-for>
-              </ul>
-            </div>
-          </sc-for>
+
+          <div class="reveal" style="position:relative;padding-left:30px;padding-bottom:40px;border-left:1px solid rgba(126,224,74,0.28);">
+            <span style="position:absolute;left:-6.5px;top:5px;width:12px;height:12px;border-radius:50%;background:#7ee04a;box-shadow:0 0 0 4px rgba(126,224,74,0.18);"></span>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;line-height:1.12;color:#f4f7ee;margin:0 0 4px;">AI Intern</h3>
+            <div style="font-size:15px;font-weight:600;color:#7ee04a;margin-bottom:6px;">Institute for Cybersecurity &amp; Emerging Technologies</div>
+            <div style="font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#9db08f;margin-bottom:16px;">Rhode Island College, Providence, RI · June 2026 – Present</div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Serve as the sole AI-focused intern, independently scoping and driving the lab's AI initiatives with minimal oversight.</li>
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Guide visiting high school students through hands-on lab work, walking them through the team's tools and workflows.</li>
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Building a GitHub repository to document lab procedures and standardize onboarding for incoming students and staff.</li>
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Designing an AI assistant ("copilot") concept to support lab workflows and automate routine report generation.</li>
+            </ul>
+          </div>
+
+          <div class="reveal" style="position:relative;padding-left:30px;padding-bottom:40px;border-left:1px solid rgba(126,224,74,0.28);">
+            <span style="position:absolute;left:-6.5px;top:5px;width:12px;height:12px;border-radius:50%;background:#7ee04a;box-shadow:0 0 0 4px rgba(126,224,74,0.18);"></span>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:27px;line-height:1.12;color:#f4f7ee;margin:0 0 4px;">Helper / Laborer</h3>
+            <div style="font-size:15px;font-weight:600;color:#7ee04a;margin-bottom:6px;">AD &amp; D Welding &amp; Boiler Works, Inc.</div>
+            <div style="font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:#9db08f;margin-bottom:16px;">North Scituate, RI · 2019 – 2025</div>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;">
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Assisted in industrial maintenance and repair operations in a hands-on team environment.</li>
+              <li style="position:relative;padding-left:20px;font-size:15.5px;line-height:1.6;color:#cbd8c0;"><span style="position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:#e8c14a;"></span>Built strong attention to detail and reliability working efficiently in a fast-paced setting.</li>
+            </ul>
+          </div>
         </div>
 
         <!-- Education -->
         <div>
           <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7ee04a;font-weight:700;margin-bottom:32px;">Education</div>
           <div style="display:flex;flex-direction:column;gap:18px;">
-            <sc-for list="{{ education }}" as="ed" hint-placeholder-count="3">
-              <div data-reveal style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:22px 24px;">
-                <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;">
-                  <div style="font-size:16.5px;font-weight:700;color:#f4f7ee;">{{ ed.school }}</div>
-                  <div style="font-size:13px;font-weight:600;color:#e8c14a;white-space:nowrap;">{{ ed.date }}</div>
-                </div>
-                <div style="font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:#9db08f;margin-bottom:10px;">{{ ed.place }}</div>
-                <div style="font-size:14.5px;line-height:1.55;color:#cbd8c0;">{{ ed.degree }}</div>
+            <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:22px 24px;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;">
+                <div style="font-size:16.5px;font-weight:700;color:#f4f7ee;">Rhode Island College</div>
+                <div style="font-size:13px;font-weight:600;color:#e8c14a;white-space:nowrap;">Expected 2027</div>
               </div>
-            </sc-for>
+              <div style="font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:#9db08f;margin-bottom:10px;">Providence, RI</div>
+              <div style="font-size:14.5px;line-height:1.55;color:#cbd8c0;">B.S. Artificial Intelligence · GPA 3.6 · Minors: Mathematics, Computer Science, Data Science</div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:22px 24px;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;">
+                <div style="font-size:16.5px;font-weight:700;color:#f4f7ee;">Community College of Rhode Island</div>
+                <div style="font-size:13px;font-weight:600;color:#e8c14a;white-space:nowrap;">2025</div>
+              </div>
+              <div style="font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:#9db08f;margin-bottom:10px;">Warwick, RI</div>
+              <div style="font-size:14.5px;line-height:1.55;color:#cbd8c0;">A.S. Computer Science · GPA 3.38</div>
+            </div>
+            <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:22px 24px;">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;">
+                <div style="font-size:16.5px;font-weight:700;color:#f4f7ee;">University of Rhode Island</div>
+                <div style="font-size:13px;font-weight:600;color:#e8c14a;white-space:nowrap;">2025</div>
+              </div>
+              <div style="font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:#9db08f;margin-bottom:10px;">Kingston, RI</div>
+              <div style="font-size:14.5px;line-height:1.55;color:#cbd8c0;">Computer Science Studies · GPA 3.78</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Skills -->
       <div style="margin-top:80px;">
-        <div data-reveal style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7ee04a;font-weight:700;margin-bottom:34px;">Toolkit &amp; skills</div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:38px 56px;">
-          <sc-for list="{{ skills }}" as="group" hint-placeholder-count="4">
-            <div data-reveal>
-              <div style="font-family:'Caveat',cursive;font-size:23px;color:#e8c14a;margin-bottom:14px;">{{ group.label }}</div>
-              <div style="display:flex;flex-wrap:wrap;gap:9px;">
-                <sc-for list="{{ group.items }}" as="item" hint-placeholder-count="5">
-                  <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">{{ item }}</span>
-                </sc-for>
-              </div>
+        <div class="reveal" style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#7ee04a;font-weight:700;margin-bottom:34px;">Toolkit &amp; skills</div>
+        <div class="skills-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:38px 56px;">
+          <div class="reveal">
+            <div style="font-family:'Caveat',cursive;font-size:23px;color:#e8c14a;margin-bottom:14px;">Programming &amp; tools</div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;">
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Python</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Java</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">PowerShell</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Git</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">GitHub</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">VS Code</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Tableau</span>
             </div>
-          </sc-for>
+          </div>
+          <div class="reveal">
+            <div style="font-family:'Caveat',cursive;font-size:23px;color:#e8c14a;margin-bottom:14px;">AI &amp; automation</div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;">
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">AI tools</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Prompt configuration</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Workflow automation</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Local LLMs (in progress)</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <div style="font-family:'Caveat',cursive;font-size:23px;color:#e8c14a;margin-bottom:14px;">AI tools — daily use</div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;">
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Claude Code</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Codex</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Ollama</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">OpenClaw</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Hermes</span>
+            </div>
+          </div>
+          <div class="reveal">
+            <div style="font-family:'Caveat',cursive;font-size:23px;color:#e8c14a;margin-bottom:14px;">Concepts &amp; math</div>
+            <div style="display:flex;flex-wrap:wrap;gap:9px;">
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">OOP</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Data Structures</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">File I/O</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Problem Solving</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Calculus I &amp; II</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Statistics &amp; Probability</span>
+              <span style="font-size:14px;font-weight:500;color:#e6efdd;background:rgba(255,255,255,0.06);border:1px solid rgba(126,224,74,0.24);border-radius:999px;padding:8px 15px;">Data Visualization</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ PORTFOLIO ============ -->
-  <section id="portfolio" style="background:#f2f4ec;padding:120px 52px;">
+  <section id="portfolio" class="sec" style="background:#f2f4ec;padding:120px 52px;">
     <div style="max-width:1180px;margin:0 auto;">
-      <div data-reveal style="margin-bottom:60px;max-width:640px;">
+      <div class="reveal" style="margin-bottom:60px;max-width:640px;">
         <div style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:2px;">Selected work</div>
         <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(34px,4.4vw,58px);line-height:1.04;color:#15281c;margin:0 0 16px;">Projects &amp; experiments</h2>
         <p style="font-size:17px;line-height:1.7;color:#45543f;margin:0;">A mix of automation pipelines, local-model tinkering, and coursework — built hands-on and run end to end.</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:30px;">
-        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="4">
-          <div data-reveal style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease;" style-hover="transform:translateY(-8px);box-shadow:0 30px 60px -34px rgba(15,61,46,0.55);">
-            <div style="position:relative;width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#0e2f22 0%,#2f7d3f 100%);display:flex;align-items:flex-end;padding:22px;">
-              <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-30px;top:-46px;width:190px;opacity:.16;">
-                <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
-                <path d="M120 100 C154 88 178 68 188 44"/><path d="M120 100 C86 88 62 68 52 44"/>
-                <path d="M120 170 C154 158 178 138 188 114"/><path d="M120 170 C86 158 62 138 52 114"/>
-              </svg>
-              <span style="position:relative;font-family:'Caveat',cursive;font-size:26px;color:#eaffd9;">{{ p.tag }}</span>
-            </div>
-            <div style="padding:26px 28px 30px;">
-              <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:12px;">{{ p.tag }}</div>
-              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;color:#16281c;margin:0 0 12px;">{{ p.title }}</h3>
-              <p style="font-size:15px;line-height:1.65;color:#4a564a;margin:0;">{{ p.desc }}</p>
-            </div>
+      <div class="projects-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:30px;">
+
+        <div class="reveal proj-card" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;overflow:hidden;">
+          <div style="position:relative;width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#0e2f22 0%,#2f7d3f 100%);display:flex;align-items:flex-end;padding:22px;">
+            <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-30px;top:-46px;width:190px;opacity:.16;">
+              <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
+              <path d="M120 100 C154 88 178 68 188 44"/><path d="M120 100 C86 88 62 68 52 44"/>
+              <path d="M120 170 C154 158 178 138 188 114"/><path d="M120 170 C86 158 62 138 52 114"/>
+            </svg>
+            <span style="position:relative;font-family:'Caveat',cursive;font-size:26px;color:#eaffd9;">Agentic AI · Automation</span>
           </div>
-        </sc-for>
+          <div style="padding:26px 28px 30px;">
+            <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:12px;">Agentic AI · Automation</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;color:#16281c;margin:0 0 12px;">AI News Automation</h3>
+            <p style="font-size:15px;line-height:1.65;color:#4a564a;margin:0;">An agentic pipeline that pulls AI/tech news from RSS feeds, summarizes it with a locally-running Ollama model, and posts to Discord on a scheduled cron job — directed and configured end to end, and verified to run reliably on its own.</p>
+          </div>
+        </div>
+
+        <div class="reveal proj-card" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;overflow:hidden;">
+          <div style="position:relative;width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#0e2f22 0%,#2f7d3f 100%);display:flex;align-items:flex-end;padding:22px;">
+            <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-30px;top:-46px;width:190px;opacity:.16;">
+              <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
+              <path d="M120 100 C154 88 178 68 188 44"/><path d="M120 100 C86 88 62 68 52 44"/>
+              <path d="M120 170 C154 158 178 138 188 114"/><path d="M120 170 C86 158 62 138 52 114"/>
+            </svg>
+            <span style="position:relative;font-family:'Caveat',cursive;font-size:26px;color:#eaffd9;">Self-Directed · Local LLMs</span>
+          </div>
+          <div style="padding:26px 28px 30px;">
+            <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:12px;">Self-Directed · Local LLMs</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;color:#16281c;margin:0 0 12px;">Local AI Models</h3>
+            <p style="font-size:15px;line-height:1.65;color:#4a564a;margin:0;">Acquired an NVIDIA DGX Spark to begin hands-on study of running and experimenting with local large language models — building real familiarity with local inference and automation.</p>
+          </div>
+        </div>
+
+        <div class="reveal proj-card" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;overflow:hidden;">
+          <div style="position:relative;width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#0e2f22 0%,#2f7d3f 100%);display:flex;align-items:flex-end;padding:22px;">
+            <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-30px;top:-46px;width:190px;opacity:.16;">
+              <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
+              <path d="M120 100 C154 88 178 68 188 44"/><path d="M120 100 C86 88 62 68 52 44"/>
+              <path d="M120 170 C154 158 178 138 188 114"/><path d="M120 170 C86 158 62 138 52 114"/>
+            </svg>
+            <span style="position:relative;font-family:'Caveat',cursive;font-size:26px;color:#eaffd9;">Data Visualization · Tableau</span>
+          </div>
+          <div style="padding:26px 28px 30px;">
+            <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:12px;">Data Visualization · Tableau</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;color:#16281c;margin:0 0 12px;">Sales &amp; Profit Dashboards</h3>
+            <p style="font-size:15px;line-height:1.65;color:#4a564a;margin:0;">Built interactive dashboards analyzing sales and profit trends across regions, applying filters, maps, and calculated fields to surface patterns and insights.</p>
+          </div>
+        </div>
+
+        <div class="reveal proj-card" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;overflow:hidden;">
+          <div style="position:relative;width:100%;height:220px;overflow:hidden;background:linear-gradient(135deg,#0e2f22 0%,#2f7d3f 100%);display:flex;align-items:flex-end;padding:22px;">
+            <svg viewBox="0 0 240 320" aria-hidden="true" fill="none" stroke="#7ee04a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;right:-30px;top:-46px;width:190px;opacity:.16;">
+              <path d="M120 312 C40 250 40 110 120 8 C200 110 200 250 120 312 Z"/><path d="M120 300 L120 24"/>
+              <path d="M120 100 C154 88 178 68 188 44"/><path d="M120 100 C86 88 62 68 52 44"/>
+              <path d="M120 170 C154 158 178 138 188 114"/><path d="M120 170 C86 158 62 138 52 114"/>
+            </svg>
+            <span style="position:relative;font-family:'Caveat',cursive;font-size:26px;color:#eaffd9;">Programming · Java / Python</span>
+          </div>
+          <div style="padding:26px 28px 30px;">
+            <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:12px;">Programming · Java / Python</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;line-height:1.1;color:#16281c;margin:0 0 12px;">Algorithms &amp; OOP</h3>
+            <p style="font-size:15px;line-height:1.65;color:#4a564a;margin:0;">Implemented sorting algorithms and built programs using object-oriented design and file input/output across Java and Python coursework.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ============ CONTACT ============ -->
-  <section id="contact" style="background:#0a231a;padding:120px 52px 60px;">
+  <section id="contact" class="sec" style="background:#0a231a;padding:120px 52px 60px;">
     <div style="max-width:900px;margin:0 auto;text-align:center;">
-      <div data-reveal style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;margin-bottom:4px;">Say hello</div>
-      <h2 data-reveal data-reveal-delay="80ms" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(38px,5.2vw,72px);line-height:1.02;color:#f4f7ee;margin:0 0 22px;">Let's build something that matters.</h2>
-      <p data-reveal data-reveal-delay="150ms" style="font-size:18px;line-height:1.7;color:#c3d3b8;margin:0 auto 40px;max-width:560px;">Open to internships, collaborations, and mission-driven AI projects. The fastest way to reach me is email.</p>
-      <div data-reveal data-reveal-delay="220ms" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:70px;">
-        <a href="mailto:krigz.karter@gmail.com" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:16px;padding:16px 34px;border-radius:999px;transition:filter .25s ease, transform .25s ease;" style-hover="filter:brightness(1.08);transform:translateY(-2px);">krigz.karter@gmail.com</a>
-        <a href="tel:+14014970576" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:rgba(255,255,255,0.06);color:#f2f4ec;font-weight:600;font-size:16px;padding:16px 34px;border-radius:999px;border:1px solid rgba(242,244,236,0.4);transition:background .25s ease, transform .25s ease;" style-hover="background:rgba(255,255,255,0.14);transform:translateY(-2px);">(401) 497-0576</a>
+      <div class="reveal" style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;margin-bottom:4px;">Say hello</div>
+      <h2 class="reveal" data-reveal-delay="80ms" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(38px,5.2vw,72px);line-height:1.02;color:#f4f7ee;margin:0 0 22px;">Let's build something that matters.</h2>
+      <p class="reveal" data-reveal-delay="150ms" style="font-size:18px;line-height:1.7;color:#c3d3b8;margin:0 auto 40px;max-width:560px;">Open to internships, collaborations, and mission-driven AI projects. The fastest way to reach me is email.</p>
+      <div class="reveal" data-reveal-delay="220ms" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-bottom:70px;">
+        <a href="mailto:krigz.karter@gmail.com" class="btn-lime" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:16px;padding:16px 34px;border-radius:999px;">krigz.karter@gmail.com</a>
+        <a href="tel:+14014970576" class="btn-ghost" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:rgba(255,255,255,0.06);color:#f2f4ec;font-weight:600;font-size:16px;padding:16px 34px;border-radius:999px;border:1px solid rgba(242,244,236,0.4);">(401) 497-0576</a>
       </div>
-      <div data-reveal style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:36px;">
+      <div class="reveal contact-info" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-top:1px solid rgba(255,255,255,0.1);padding-top:36px;">
         <div>
           <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#7ee04a;margin-bottom:8px;">Email</div>
           <div style="font-size:15px;color:#d8e3cf;word-break:break-word;">krigz.karter@gmail.com</div>
@@ -224,7 +354,7 @@
         </div>
       </div>
     </div>
-    <div style="max-width:1180px;margin:80px auto 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;">
+    <div class="foot-row" style="max-width:1180px;margin:80px auto 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,0.08);padding-top:28px;">
       <div style="display:flex;align-items:center;gap:11px;">
         <img src="logo.png" alt="Karter Riggs logo" style="width:42px;height:42px;display:block;object-fit:contain;">
         <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#e6efdd;">Karter Riggs</span>
@@ -235,127 +365,45 @@
   </section>
 
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{
-  &quot;accent&quot;: { &quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#7ee04a&quot;, &quot;options&quot;: [&quot;#7ee04a&quot;, &quot;#e8c14a&quot;, &quot;#4fa88a&quot;, &quot;#a3d977&quot;], &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Theme&quot; },
-  &quot;heroDim&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 55, &quot;min&quot;: 0, &quot;max&quot;: 85, &quot;step&quot;: 5, &quot;unit&quot;: &quot;%&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Hero&quot; },
-  &quot;reveals&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Motion&quot; }
-}">
-class Component extends DCLogic {
-  renderVals() {
-    return {
-      experiences: [
-        {
-          role: "AI Intern",
-          org: "Institute for Cybersecurity & Emerging Technologies",
-          meta: "Rhode Island College, Providence, RI · June 2026 – Present",
-          bullets: [
-            "Serve as the sole AI-focused intern, independently scoping and driving the lab's AI initiatives with minimal oversight.",
-            "Guide visiting high school students through hands-on lab work, walking them through the team's tools and workflows.",
-            "Building a GitHub repository to document lab procedures and standardize onboarding for incoming students and staff.",
-            "Designing an AI assistant (\u201Ccopilot\u201D) concept to support lab workflows and automate routine report generation."
-          ]
-        },
-        {
-          role: "Helper / Laborer",
-          org: "AD & D Welding & Boiler Works, Inc.",
-          meta: "North Scituate, RI · 2019 – 2025",
-          bullets: [
-            "Assisted in industrial maintenance and repair operations in a hands-on team environment.",
-            "Built strong attention to detail and reliability working efficiently in a fast-paced setting."
-          ]
-        }
-      ],
-      education: [
-        { school: "Rhode Island College", place: "Providence, RI", date: "Expected 2027", degree: "B.S. Artificial Intelligence · GPA 3.6 · Minors: Mathematics, Computer Science, Data Science" },
-        { school: "Community College of Rhode Island", place: "Warwick, RI", date: "2025", degree: "A.S. Computer Science · GPA 3.38" },
-        { school: "University of Rhode Island", place: "Kingston, RI", date: "2025", degree: "Computer Science Studies · GPA 3.78" }
-      ],
-      projects: [
-        { slotId: "proj-news", placeholder: "screenshot / diagram", tag: "Agentic AI · Automation", title: "AI News Automation", desc: "An agentic pipeline that pulls AI/tech news from RSS feeds, summarizes it with a locally-running Ollama model, and posts to Discord on a scheduled cron job \u2014 directed and configured end to end, and verified to run reliably on its own." },
-        { slotId: "proj-llm", placeholder: "NVIDIA DGX Spark / setup", tag: "Self-Directed · Local LLMs", title: "Local AI Models", desc: "Acquired an NVIDIA DGX Spark to begin hands-on study of running and experimenting with local large language models \u2014 building real familiarity with local inference and automation." },
-        { slotId: "proj-tableau", placeholder: "Tableau dashboard", tag: "Data Visualization · Tableau", title: "Sales & Profit Dashboards", desc: "Built interactive dashboards analyzing sales and profit trends across regions, applying filters, maps, and calculated fields to surface patterns and insights." },
-        { slotId: "proj-code", placeholder: "code / terminal", tag: "Programming · Java / Python", title: "Algorithms & OOP", desc: "Implemented sorting algorithms and built programs using object-oriented design and file input/output across Java and Python coursework." }
-      ],
-      skills: [
-        { label: "Programming & tools", items: ["Python", "Java", "PowerShell", "Git", "GitHub", "VS Code", "Tableau"] },
-        { label: "AI & automation", items: ["AI tools", "Prompt configuration", "Workflow automation", "Local LLMs (in progress)"] },
-        { label: "AI tools \u2014 daily use", items: ["Claude Code", "Codex", "Ollama", "OpenClaw", "Hermes"] },
-        { label: "Concepts & math", items: ["OOP", "Data Structures", "File I/O", "Problem Solving", "Calculus I & II", "Statistics & Probability", "Data Visualization"] }
-      ]
-    };
-  }
 
-  componentDidMount() {
-    this.applyTweaks();
-    this.setupScroll();
-    this.setupReveals();
-  }
-
-  componentDidUpdate() {
-    this.applyTweaks();
-  }
-
-  componentWillUnmount() {
-    if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
-    if (this._io) this._io.disconnect();
-  }
-
-  applyTweaks() {
-    const accent = this.props.accent || "#7ee04a";
-    document.documentElement.style.setProperty("--accent", accent);
-    const dim = (this.props.heroDim ?? 55) / 100;
-    const ov = document.querySelector("[data-hero-overlay]");
-    if (ov) ov.style.opacity = String(dim);
-  }
-
-  setupScroll() {
-    const nav = document.querySelector("[data-nav]");
-    const onScroll = () => {
-      if (!nav) return;
-      if (window.scrollY > 40) {
-        nav.style.background = "rgba(9,32,24,0.93)";
-        nav.style.paddingTop = "13px";
-        nav.style.paddingBottom = "13px";
-        nav.style.boxShadow = "0 12px 34px rgba(0,0,0,0.28)";
-      } else {
-        nav.style.background = "rgba(14,47,34,0.5)";
-        nav.style.paddingTop = "20px";
-        nav.style.paddingBottom = "20px";
-        nav.style.boxShadow = "none";
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    this._onScroll = onScroll;
-  }
-
-  setupReveals() {
-    const enabled = this.props.reveals ?? true;
-    const els = document.querySelectorAll("[data-reveal]");
-    if (!enabled) {
-      els.forEach((el) => { el.style.opacity = "1"; el.style.transform = "none"; });
-      return;
+<script>
+(function () {
+  "use strict";
+  // sticky nav: darken + shrink on scroll
+  var nav = document.querySelector("[data-nav]");
+  function onScroll() {
+    if (!nav) return;
+    if (window.scrollY > 40) {
+      nav.style.background = "rgba(9,32,24,0.93)";
+      nav.style.paddingTop = "13px";
+      nav.style.paddingBottom = "13px";
+      nav.style.boxShadow = "0 12px 34px rgba(0,0,0,0.28)";
+    } else {
+      nav.style.background = "rgba(14,47,34,0.5)";
+      nav.style.paddingTop = "20px";
+      nav.style.paddingBottom = "20px";
+      nav.style.boxShadow = "none";
     }
-    els.forEach((el) => {
-      el.style.opacity = "0";
-      el.style.transform = "translateY(30px)";
-      el.style.transition = "opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)";
-      if (el.dataset.revealDelay) el.style.transitionDelay = el.dataset.revealDelay;
-    });
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.style.opacity = "1";
-          e.target.style.transform = "none";
-          io.unobserve(e.target);
-        }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // reveal-on-scroll
+  var els = document.querySelectorAll(".reveal");
+  els.forEach(function (el) {
+    if (el.dataset.revealDelay) el.style.transitionDelay = el.dataset.revealDelay;
+  });
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
       });
     }, { threshold: 0.1, rootMargin: "0px 0px -8% 0px" });
-    els.forEach((el) => io.observe(el));
-    this._io = io;
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add("in"); });
   }
-}
+})();
 </script>
 </body>
 </html>

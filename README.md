@@ -9,14 +9,6 @@ A single-page, nature-themed portfolio site. Plain static HTML/CSS/JS — no bui
 - `logo.png` — pine-badge logo (nav, about panel, footer)
 - `painted-meadow.png` — hero background image
 
-## Local preview
-Open `index.html` in a browser, or serve the folder:
-
-```bash
-python -m http.server 8000
-# then visit http://localhost:8000
-```
-
 ## Editing
 Everything lives in `index.html`:
 - **Content** (experience, education, projects, skills) is the markup inside each `<section>`.

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI News Automation — Karter Riggs</title>
+<meta name="description" content="A hands-off daily pipeline: tech RSS feeds summarized by a local model via Ollama and delivered to Discord on a cron schedule — built by directing an AI agent end to end.">
+<meta name="author" content="Karter Riggs">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Mulish:wght@300;400;500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="../logo.png">
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+  body { margin: 0; background: #f2f4ec; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  ::selection { background: #7ee04a; color: #0a231a; }
+  a { -webkit-tap-highlight-color: transparent; }
+
+  .navlink { transition: color .25s ease, background .25s ease; }
+  .navlink:hover { color:#7ee04a; background:rgba(126,224,74,0.1); }
+  .btn-lime { transition: filter .25s ease, transform .25s ease; }
+  .btn-lime:hover { filter:brightness(1.08); transform:translateY(-2px); }
+  .concept-card { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+  .concept-card:hover { transform:translateY(-6px); box-shadow:0 30px 60px -34px rgba(15,61,46,0.55); }
+
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1 !important;transform:none !important;} }
+
+  @media (max-width: 900px){
+    .concepts-grid, .takeaway-grid, .flow-row { grid-template-columns: 1fr !important; }
+    .sec { padding: 84px 22px !important; }
+    nav[data-nav]{ padding:14px 20px !important; }
+    .flow-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+<div style="font-family:'Mulish',sans-serif;color:#1c2a1e;overflow-x:hidden;">
+
+  <!-- ============ NAV ============ -->
+  <nav data-nav style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:20px 52px;background:rgba(14,47,34,0.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(126,224,74,0.16);transition:background .45s ease, padding .45s ease, box-shadow .45s ease;">
+    <a href="../index.html" style="display:flex;align-items:center;gap:13px;text-decoration:none;">
+      <img src="../logo.png" alt="Karter Riggs logo" style="width:56px;height:56px;display:block;object-fit:contain;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#f2f4ec;letter-spacing:.01em;">Karter Riggs</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <a href="../index.html#portfolio" class="navlink" style="text-decoration:none;color:#dbe6d3;font-size:14.5px;font-weight:600;letter-spacing:.02em;padding:8px 14px;border-radius:999px;">← Back to portfolio</a>
+      <a href="../index.html#contact" class="btn-lime" style="text-decoration:none;color:#0a231a;background:#7ee04a;font-size:14.5px;font-weight:700;letter-spacing:.02em;padding:9px 18px;border-radius:999px;">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ============ HEADER ============ -->
+  <section style="position:relative;min-height:62vh;display:flex;align-items:flex-end;overflow:hidden;">
+    <div style="position:absolute;inset:0;width:100%;height:100%;z-index:0;background:url('../painted-meadow.png') center 30% / cover no-repeat;"></div>
+    <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg, rgba(10,35,26,0.72) 0%, rgba(10,35,26,0.45) 45%, rgba(10,35,26,0.82) 100%);"></div>
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:150px 52px 70px;width:100%;">
+      <div class="reveal" style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;line-height:1;margin-bottom:8px;">Selected work</div>
+      <h1 class="reveal" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(44px,7vw,92px);line-height:0.98;letter-spacing:-0.01em;color:#f4f7ee;margin:0 0 18px;text-shadow:0 2px 40px rgba(6,20,14,0.45);">AI News<br>Automation</h1>
+      <div class="reveal" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+        <span style="font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0a231a;background:#7ee04a;border-radius:999px;padding:8px 16px;">Agentic AI · Local Models</span>
+        <span style="font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#e6efdd;background:rgba(255,255,255,0.08);border:1px solid rgba(126,224,74,0.3);border-radius:999px;padding:8px 16px;">Personal Project · OpenClaw + Ollama</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="sec" style="background:#f2f4ec;padding:100px 52px;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="takeaway-grid" style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:64px;align-items:start;">
+        <div class="reveal">
+          <div style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:2px;">The project</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(32px,4vw,52px);line-height:1.06;color:#15281c;margin:0 0 24px;">A news pipeline that runs while I sleep.</h2>
+          <p style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0 0 20px;">Every day, on a cron schedule, this pipeline pulls the latest posts from tech RSS feeds — NVIDIA and other industry sources — hands them to a <strong>locally running Gemma-family model via Ollama</strong> for summarization, and posts the digest to a Discord server that pings me. No cloud API, no subscription, no manual step.</p>
+          <p style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0;">The twist: I didn't hand-write it. I <strong>directed an AI agent (OpenClaw) end to end</strong> — scoping the design, configuring each stage, testing, and correcting — then verified the whole thing ran reliably on its own. The project was as much about learning to operate an agent as about the pipeline itself.</p>
+        </div>
+        <div class="reveal" style="background:#ffffff;border:1px solid #e3e7db;border-radius:20px;padding:30px 32px;box-shadow:0 24px 50px -32px rgba(15,61,46,0.4);">
+          <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:18px;">At a glance</div>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Cadence</span><span style="font-size:15px;font-weight:700;color:#15281c;">Daily · cron</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Model</span><span style="font-size:15px;font-weight:700;color:#15281c;">Gemma · local via Ollama</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef1e6;padding-bottom:12px;"><span style="font-size:15px;color:#45543f;">Built by directing</span><span style="font-size:15px;font-weight:700;color:#15281c;">OpenClaw agent</span></div>
+            <div style="display:flex;justify-content:space-between;gap:12px;"><span style="font-size:15px;color:#45543f;">Running cost</span><span style="font-size:15px;font-weight:700;color:#15281c;">$0 · fully local</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- pipeline flow -->
+      <div class="reveal" style="margin-top:70px;">
+        <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#2f7d3f;font-weight:700;margin-bottom:22px;text-align:center;">The pipeline</div>
+        <div class="flow-row" style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:14px;align-items:stretch;max-width:1000px;margin:0 auto;">
+          <div style="background:#ffffff;border:1px solid #e3e7db;border-radius:16px;padding:22px 20px;text-align:center;">
+            <div style="font-family:'Caveat',cursive;font-size:22px;color:#2f7d3f;margin-bottom:6px;">Watch</div>
+            <div style="font-size:14px;line-height:1.55;color:#45543f;">Tech RSS feeds — NVIDIA &amp; other industry sources</div>
+          </div>
+          <div class="flow-arrow" style="align-self:center;color:#7ea06a;font-size:22px;font-weight:700;">→</div>
+          <div style="background:#ffffff;border:1px solid #e3e7db;border-radius:16px;padding:22px 20px;text-align:center;">
+            <div style="font-family:'Caveat',cursive;font-size:22px;color:#2f7d3f;margin-bottom:6px;">Summarize</div>
+            <div style="font-size:14px;line-height:1.55;color:#45543f;">Local Gemma model running through Ollama</div>
+          </div>
+          <div class="flow-arrow" style="align-self:center;color:#7ea06a;font-size:22px;font-weight:700;">→</div>
+          <div style="background:#ffffff;border:1px solid #e3e7db;border-radius:16px;padding:22px 20px;text-align:center;">
+            <div style="font-family:'Caveat',cursive;font-size:22px;color:#2f7d3f;margin-bottom:6px;">Deliver</div>
+            <div style="font-size:14px;line-height:1.55;color:#45543f;">Posted to a Discord server that pings me</div>
+          </div>
+          <div class="flow-arrow" style="align-self:center;color:#7ea06a;font-size:22px;font-weight:700;">→</div>
+          <div style="background:#ffffff;border:1px solid #e3e7db;border-radius:16px;padding:22px 20px;text-align:center;">
+            <div style="font-family:'Caveat',cursive;font-size:22px;color:#2f7d3f;margin-bottom:6px;">Repeat</div>
+            <div style="font-size:14px;line-height:1.55;color:#45543f;">Scheduled daily by cron — zero manual steps</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE WORK ============ -->
+  <section class="sec" style="background:#0e2f22;padding:100px 52px;">
+    <div style="max-width:1180px;margin:0 auto;">
+      <div class="reveal" style="text-align:center;margin-bottom:64px;">
+        <div style="font-family:'Caveat',cursive;font-size:28px;color:#7ee04a;margin-bottom:2px;">What it taught me</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(32px,4.4vw,56px);line-height:1.04;color:#f4f7ee;margin:0;">Building it was the easy part</h2>
+      </div>
+
+      <div class="concepts-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:22px;">
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Operating an agent, not just prompting one</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">OpenClaw wrote the mechanics; <strong style="color:#e6efdd;">I owned the direction</strong> — what to build, how the stages fit, what "working" meant, and when its output needed correcting. Directing an agent through a multi-step build is a different skill than chatting with one, and this is where I learned it.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Why a local model</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">Running Gemma through Ollama means <strong style="color:#e6efdd;">no API bill, no rate limits, and nothing leaving my machine</strong>. For an always-on daily job, "free and private" beats "slightly smarter" — and it made the pipeline a live testbed for my local-LLM learning.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">The hard part was the plumbing</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">The model was easy; <strong style="color:#e6efdd;">Discord was the fight</strong> — standing up a server, wiring the integration, and getting notifications to actually ping me. Classic automation lesson: the AI is rarely the bottleneck. Connecting systems is.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">Verified hands-off</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">The bar wasn't "it ran once" — it was <strong style="color:#e6efdd;">"it runs when I'm not looking."</strong> Scheduled by cron, checked over multiple days, delivering on its own. Reliability, not a demo.</p>
+        </div>
+
+        <div class="reveal" style="background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.09);border-radius:16px;padding:28px 30px;grid-column:1 / -1;">
+          <div style="font-family:'Caveat',cursive;font-size:24px;color:#e8c14a;margin-bottom:10px;">The honest verdict — and what it changed</div>
+          <p style="font-size:15px;line-height:1.65;color:#cbd8c0;margin:0;">The pipeline ran flawlessly; the summaries didn't impress me. A small local model produced digests that were <strong style="color:#e6efdd;">serviceable but not worth reading daily</strong> — and that was the real lesson: <strong style="color:#e6efdd;">the model is the ceiling of any AI automation.</strong> Perfect plumbing can't fix a weak brain. That conclusion is part of why I acquired an NVIDIA DGX Spark — to run bigger, better local models and raise that ceiling. The next iteration of this pipeline gets a stronger engine.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TAKEAWAY ============ -->
+  <section class="sec" style="background:#f2f4ec;padding:100px 52px;">
+    <div style="max-width:900px;margin:0 auto;text-align:center;">
+      <div class="reveal" style="font-family:'Caveat',cursive;font-size:28px;color:#2f7d3f;margin-bottom:4px;">Why it matters</div>
+      <h2 class="reveal" style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(30px,4.4vw,52px);line-height:1.06;color:#15281c;margin:0 0 22px;">Shipping something real teaches what tutorials can't.</h2>
+      <p class="reveal" style="font-size:17.5px;line-height:1.75;color:#45543f;margin:0 auto 40px;max-width:640px;">This project covered the full arc: direct an agent to build a system, wire it into real tools, verify it runs unattended, judge the output honestly — and let that judgment drive the next investment. That loop is how I approach every AI project since.</p>
+      <div class="reveal" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <a href="../index.html#portfolio" class="btn-lime" style="display:inline-flex;align-items:center;gap:9px;text-decoration:none;background:#7ee04a;color:#0a231a;font-weight:700;font-size:15px;padding:15px 30px;border-radius:999px;">← Back to all projects</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0a231a;padding:34px 52px;">
+    <div style="max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:11px;">
+        <img src="../logo.png" alt="Karter Riggs logo" style="width:42px;height:42px;display:block;object-fit:contain;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#e6efdd;">Karter Riggs</span>
+      </div>
+      <div style="font-size:13.5px;color:#8fa585;">© 2026 Karter Riggs · Artificial Intelligence</div>
+      <a href="../index.html" style="text-decoration:none;font-size:13.5px;font-weight:600;color:#7ee04a;">Home ↑</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var nav = document.querySelector("[data-nav]");
+  function onScroll() {
+    if (!nav) return;
+    if (window.scrollY > 40) {
+      nav.style.background = "rgba(9,32,24,0.93)";
+      nav.style.paddingTop = "13px";
+      nav.style.paddingBottom = "13px";
+      nav.style.boxShadow = "0 12px 34px rgba(0,0,0,0.28)";
+    } else {
+      nav.style.background = "rgba(14,47,34,0.5)";
+      nav.style.paddingTop = "20px";
+      nav.style.paddingBottom = "20px";
+      nav.style.boxShadow = "none";
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  var els = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add("in"); });
+  }
+})();
+</script>
+</body>
+</html>
